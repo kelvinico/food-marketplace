@@ -9,7 +9,12 @@ const paymentsRoutes = require('./modules/payments/routes');
 const notificationsRoutes = require('./modules/notifications/routes');
 
 const app = express();
-app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'] }));
+
+const allowedOrigins = (
+  process.env.CORS_ORIGINS ||
+  'http://localhost:5173,http://localhost:5174,http://localhost:5175'
+).split(',');
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 app.use('/api/payments', paymentsRoutes);

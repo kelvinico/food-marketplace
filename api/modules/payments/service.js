@@ -5,6 +5,7 @@ const orderingRepository = require('../ordering/repository');
 const notificationsService = require('../notifications/service');
 
 const FLW_BASE_URL = 'https://api.flutterwave.com/v3';
+const CUSTOMER_URL = process.env.CUSTOMER_URL || 'http://localhost:5173';
 
 async function initializePayment({ orderId, actingUser }) {
   const order = await orderingRepository.findOrderById(orderId);
@@ -29,7 +30,7 @@ async function initializePayment({ orderId, actingUser }) {
       tx_ref: reference,
       amount: order.total,
       currency: 'NGN',
-      redirect_url: 'http://localhost:5173/payment-result',
+      redirect_url: `${CUSTOMER_URL}/payment-result`,
       customer: {
         email: actingUser.email || 'customer@example.com',
       },
